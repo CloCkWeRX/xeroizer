@@ -650,3 +650,20 @@ This option adds the unitdp=4 query string parameter to all requests for models 
 Xeroizer was inspired by the https://github.com/tlconnor/xero_gateway gem created by Tim Connor 
 and Nik Wakelin and portions of the networking and authentication code are based completely off 
 this project. Copyright for these components remains held in the name of Tim Connor.
+
+
+### Acceptance tests
+
+Generate keys:
+```
+openssl genrsa -out privatekey.pem 1024
+openssl req -new -x509 -key privatekey.pem -out publickey.cer -days 1825
+openssl pkcs12 -export -out public_privatekey.pfx -inkey privatekey.pem -in publickey.cer
+```
+Setup org:
+https://app.xero.com/Application - private, attached to demo company
+
+Run tests:
+```
+KEY_FILE=./privatekey.pem CONSUMER_KEY=... CONSUMER_SECRET=... bundle exec rake test:acceptance
+```
